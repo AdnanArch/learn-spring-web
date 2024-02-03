@@ -1,7 +1,9 @@
 package org.adnanarch.learnspringweb.helloworld;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 // Eliminate Verbosity in creating Java Beans
 // public accessor methods, constructor, equals, hashCode and toString are automatically created.
@@ -39,12 +41,25 @@ public class HelloWorldConfiguration {
         return new Person(name, age, address3);
     }
 
+    @Bean
+    public Person person4Parameters(String name, int age, Address address) {
+        return new Person(name, age, address);
+    }
+
+    @Bean
+    @Primary
+    public Person person5Qualifier(String name, int age, @Qualifier("address3Qualifier") Address address) {
+        return new Person(name, age, address);
+    }
+
     @Bean (name = "address2")
+    @Primary
     public Address address(){
         return new Address("Kachery Road", "Pakpattan");
     }
 
     @Bean (name = "address3")
+    @Qualifier("address3Qualifier")
     public Address address3(){
         return new Address("Pine Vally", "Pakpattan");
     }
